@@ -26,8 +26,6 @@ def tsp(start_city, cur_city, remaining_cities, total_dist, distances):
 		return total_dist + distances[cur_city][start_city]
 	min_dist = np.inf
 	for city in remaining_cities:
-		if len(remaining_cities) == 11:
-			print("high up")
 		rem = [item for item in remaining_cities if item != city]
 		dist = distances[cur_city][city] + tsp(start_city, city, rem, total_dist, distances)
 		if dist < min_dist:

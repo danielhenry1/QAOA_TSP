@@ -22,6 +22,9 @@ multiple_loc_penalty = 100
 
 p = 3
 
+weight1 = 100
+weight2 = 20
+
 sim = WavefunctionSimulator()
 
 def prepare_initial_state():
@@ -77,7 +80,7 @@ def penalize_range(must_be_unique: list):
 		i_terms = i_terms * sI(qubit)
 		z_terms = z_terms * sZ(qubit)
 		mixed_terms = mixed_terms * (sI(qubit) - sZ(qubit))
-	punishment = 100 *(i_terms + z_terms) + 20 * mixed_terms
+	punishment = weight1 * (i_terms + z_terms) + weight2 * mixed_terms
 
 	return punishment
 
