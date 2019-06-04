@@ -8,22 +8,20 @@ from pyquil.gates import *
 from scipy.optimize import minimize
 import matplotlib
 import matplotlib
-matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
 
-num_cities = 4
+num_cities = 3
 
-distance_matrix = np.matrix([[0.0, 3.0, 5.0, 4.0],
- [3.0, 0.0, 4.0, 5.0],
- [5.0, 4.0, 0.0, 3.0],
- [4.0, 5.0, 3.0, 0.0]])
-
-multiple_loc_penalty = 100
+distance_matrix = np.matrix([[0.0, 3.0, 5.0],
+ [3.0, 0.0, 4.0],
+ [5.0, 4.0, 0.0]
+ ])
 
 p = 3
 
-weight1 = 100
-weight2 = 20
+weight1 = 200
+weight2 = 80
+
 
 sim = WavefunctionSimulator()
 
@@ -59,24 +57,12 @@ def penalize_repeated_locations():
 		ps += penalize_range(occurances_of_i)
 	return ps
 
-#could not be right
-def penalize_range(must_be_unique: list):
-	## OLD VERSION !!
-
-	# weight = (- multiple_loc_penalty * np.max(distance_matrix)).item()
-	# z_terms = weight * sZ(must_be_unique[0])
-	# one_terms = 0.5 * weight * (sI(must_be_unique[0]) - sZ(must_be_unique[0]))
-	# for i in range(1, num_cities):
-	# 	z_terms = z_terms * sZ(must_be_unique[i])
-	# 	one_terms = one_terms * 0.5 *(sI(must_be_unique[0]) - sZ(must_be_unique[i]))
-	# return weight * sI(0) - z_terms - one_terms
-
-	## NEW VERSION !!
-	print("Must be unique is {}".format(must_be_unique))
+def penalize_range(must_be_single_one: list):
+	print("Must have a single 1: {}".format(must_be_single_one))
 	i_terms = sI()
 	z_terms = sI()
 	mixed_terms = sI()
-	for qubit in must_be_unique:
+	for qubit in must_be_single_one:
 		i_terms = i_terms * sI(qubit)
 		z_terms = z_terms * sZ(qubit)
 		mixed_terms = mixed_terms * (sI(qubit) - sZ(qubit))
